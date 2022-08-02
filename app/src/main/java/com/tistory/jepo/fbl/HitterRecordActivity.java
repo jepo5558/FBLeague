@@ -1,15 +1,16 @@
 
 package com.tistory.jepo.fbl;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-
 import java.util.ArrayList;
 
-public class HitterRecordActivity extends AppCompatActivity {
+public class HitterRecordActivity extends AppCompatActivity implements OnHitterLongClickListener {
 
     private HitterRecordAdapter hitterRecordAdapter;
     private RecyclerView hitterAvgRecyclerView;
@@ -23,13 +24,13 @@ public class HitterRecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hitter_record);
 
-        hitterRecordAdapter = new HitterRecordAdapter(new HitterItemUtil());
+        hitterRecordAdapter = new HitterRecordAdapter(new HitterItemUtil(), this);
         hitterAvgRecyclerView = findViewById(R.id.hitterRecyclerView);
         hitterAvgRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         hitterAvgRecyclerView.setAdapter(hitterRecordAdapter);
 
 
-        hitterRecordHRAdapter = new HitterRecordHRAdapter(new HitterItemUtil());
+        hitterRecordHRAdapter = new HitterRecordHRAdapter(new HitterItemUtil(), this);
         hitterHrRecyclerView = findViewById(R.id.hitter2RecyclerView);
         hitterHrRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         hitterHrRecyclerView.setAdapter(hitterRecordHRAdapter);
@@ -71,5 +72,25 @@ public class HitterRecordActivity extends AppCompatActivity {
         record3.setHomerun(3);
         hitter3.setRecord(record3);
         hitterList.add(hitter3);
+    }
+
+    @Override
+    public void onLongClicked(Hitter player) {
+        Intent intent = new Intent(this, Hitter_Edit.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name", player.getName());
+        HitterRecord record = player.getRecord();
+        bundle.putInt("hit", record.getHitCount());
+        bundle.putInt("countAtBat", record.getTotalCountAtBat());
+        bundle.putInt("homerun", record.getHomerun());
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hitterRecordAdapter.notifyDataSetChanged();
+        hitterRecordHRAdapter.notifyDataSetChanged();
     }
 }

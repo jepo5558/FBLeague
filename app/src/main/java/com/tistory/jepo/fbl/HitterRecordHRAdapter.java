@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HitterRecordHRAdapter extends ListAdapter<Hitter, HitterRecordHRAdapter.ViewHolder> {
 
-    protected HitterRecordHRAdapter(@NonNull DiffUtil.ItemCallback<Hitter> diffCallback) {
+    private OnHitterLongClickListener listener;
+
+    protected HitterRecordHRAdapter(@NonNull DiffUtil.ItemCallback<Hitter> diffCallback, OnHitterLongClickListener l) {
         super(diffCallback);
+        listener = l;
     }
 
     @NonNull
@@ -26,17 +29,26 @@ public class HitterRecordHRAdapter extends ListAdapter<Hitter, HitterRecordHRAda
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(getItem(position));
+        holder.rootView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listener.onLongClicked(getItem(position));
+                return true;
+            }
+        });
 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView hitterName;
         private TextView hitterRecord;
+        private View rootView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             hitterName = itemView.findViewById(R.id.playerNameTextView);
             hitterRecord = itemView.findViewById(R.id.winTextView);
+            rootView = itemView.findViewById(R.id.rootView);
         }
 
         private void bind(Hitter hitter) {

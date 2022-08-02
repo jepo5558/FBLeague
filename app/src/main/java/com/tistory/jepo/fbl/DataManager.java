@@ -1,16 +1,41 @@
 package com.tistory.jepo.fbl;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
 public class DataManager {
     private ArrayList<Pitcher> pitcherList;
     private ArrayList<Hitter> hitterList;
 
-    private DataManager() {
+    private SharedPreferences preferences;
+    private Context context;
+
+    private DataManager(Context c) {
+        context = c;
         pitcherList = new ArrayList<Pitcher>();
         initPitcherInfo();
         hitterList = new ArrayList<Hitter>();
         initHitterInfo();
+    }
+
+    public void loadData () {
+        preferences = context.getSharedPreferences("Record", Context.MODE_PRIVATE);
+
+
+    }
+
+    public void savdeData() {
+        SharedPreferences preferences = context.getSharedPreferences( "Record" , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+/*
+* https://codechacha.com/ko/sharedpref_arraylist/
+        editor.putString(KEY, VALUE);
+        editor.commit();
+* */
+
     }
 
     private static class LazyHolder {
@@ -88,7 +113,6 @@ public class DataManager {
         record3.setHomerun(3);
         hitter3.setRecord(record3);
         hitterList.add(hitter3);
-
     }
 
 }
