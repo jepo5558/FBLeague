@@ -38,7 +38,7 @@ public class PitcherRecordActivity extends AppCompatActivity implements OnPitche
 
 
         //pitcherList = new ArrayList<Pitcher>();
-        pitcherList = DataManager.getInstance().getPitcherList();
+        pitcherList = DataManager.getInstance(getApplicationContext()).getPitcherList();
         pitcherRecordAdapter.submitList(pitcherList);
         pitcherRecordEraAdapter.submitList(pitcherList);
         //loadPitcher();
@@ -94,5 +94,7 @@ public class PitcherRecordActivity extends AppCompatActivity implements OnPitche
         super.onResume();
         pitcherRecordAdapter.notifyDataSetChanged();
         pitcherRecordEraAdapter.notifyDataSetChanged();
+        DataManager.getInstance(getApplicationContext()).savePitcherData();
+
     }
 }

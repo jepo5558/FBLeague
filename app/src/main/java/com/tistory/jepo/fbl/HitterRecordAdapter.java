@@ -3,6 +3,7 @@ package com.tistory.jepo.fbl;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ public class HitterRecordAdapter extends ListAdapter<Hitter, HitterRecordAdapter
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView hitterName;
         private TextView hitterRecord;
+        private ImageView hitterImageView;
         private View rootView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -48,11 +50,13 @@ public class HitterRecordAdapter extends ListAdapter<Hitter, HitterRecordAdapter
             hitterName = itemView.findViewById(R.id.playerNameTextView);
             hitterRecord = itemView.findViewById(R.id.winTextView);
             rootView = itemView.findViewById(R.id.rootView);
+            hitterImageView = itemView.findViewById(R.id.playerImageView);
         }
 
         private void bind(Hitter hitter) {
             hitterName.setText(hitter.getName());
             hitterRecord.setText(hitter.getRecord().getAvg());
+            hitterImageView.setImageDrawable(hitter.getPhoto());
         }
     }
 }

@@ -37,7 +37,7 @@ public class HitterRecordActivity extends AppCompatActivity implements OnHitterL
 
 
         //hitterList = new ArrayList<Hitter>();
-        hitterList = DataManager.getInstance().getHitterList();
+        hitterList = DataManager.getInstance(getApplicationContext()).getHitterList();
         hitterRecordAdapter.submitList(hitterList);
         hitterRecordHRAdapter.submitList(hitterList);
         //loadHitter();
@@ -92,5 +92,7 @@ public class HitterRecordActivity extends AppCompatActivity implements OnHitterL
         super.onResume();
         hitterRecordAdapter.notifyDataSetChanged();
         hitterRecordHRAdapter.notifyDataSetChanged();
+        DataManager.getInstance(getApplicationContext()).saveHitterData();
+
     }
 }

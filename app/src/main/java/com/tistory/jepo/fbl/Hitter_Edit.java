@@ -1,6 +1,7 @@
 package com.tistory.jepo.fbl;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,9 +41,9 @@ public class Hitter_Edit extends AppCompatActivity implements View.OnClickListen
         countAtBatEditText = findViewById(R.id.countAtBatEditText);
 
         nameTextView.setText(name);
-        hitCountEditText.setText(String.valueOf(hitCount));
-        hrCountEditText.setText(String.valueOf(hrCount));
-        countAtBatEditText.setText(String.valueOf(countAtBat));
+        hitCountEditText.setHint(String.valueOf(hitCount));
+        hrCountEditText.setHint(String.valueOf(hrCount));
+        countAtBatEditText.setHint(String.valueOf(countAtBat));
 
         cancel = findViewById(R.id.cancelButton);
         cancel.setOnClickListener(this);
@@ -61,12 +62,22 @@ public class Hitter_Edit extends AppCompatActivity implements View.OnClickListen
     }
 
     private void updateRecord() {
-        dataManager = DataManager.getInstance();
+        dataManager = DataManager.getInstance(getApplicationContext());
         ArrayList<Hitter> list = dataManager.getHitterList();
         String playerName = nameTextView.getText().toString();
-        int countAtBat = Integer.parseInt(countAtBatEditText.getText().toString());
-        int hrCount = Integer.parseInt(hrCountEditText.getText().toString());
-        int hitcount = Integer.parseInt(hitCountEditText.getText().toString());
+        int countAtBat = 0;
+        int hrCount = 0;
+        int hitcount = 0;
+
+        if (!TextUtils.isEmpty(countAtBatEditText.getText().toString())) {
+            countAtBat = Integer.parseInt(countAtBatEditText.getText().toString());
+        }
+        if (!TextUtils.isEmpty(hrCountEditText.getText().toString())) {
+            hrCount = Integer.parseInt(hrCountEditText.getText().toString());
+        }
+        if (!TextUtils.isEmpty(hitCountEditText.getText().toString())) {
+            hitcount = Integer.parseInt(hitCountEditText.getText().toString());
+        }
 
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {

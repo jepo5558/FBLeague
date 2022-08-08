@@ -3,6 +3,7 @@ package com.tistory.jepo.fbl;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class PitcherRecordAdapter extends ListAdapter<Pitcher, PitcherRecordAdapter.ViewHolder> {
 
     private OnPitcherLongClickListener listener;
+
     protected PitcherRecordAdapter(@NonNull DiffUtil.ItemCallback<Pitcher> diffCallback, OnPitcherLongClickListener l) {
         super(diffCallback);
         listener = l;
@@ -37,20 +39,25 @@ public class PitcherRecordAdapter extends ListAdapter<Pitcher, PitcherRecordAdap
         });
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView pitcherName;
         private TextView pitcherRecord;
+        private ImageView pitcherImage;
         private View rootView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             rootView = itemView.findViewById(R.id.rootView);
             pitcherName = itemView.findViewById(R.id.playerNameTextView);
             pitcherRecord = itemView.findViewById(R.id.winTextView);
+            pitcherImage = itemView.findViewById(R.id.playerImageView);
+
         }
 
         private void bind(Pitcher pitcher) {
             pitcherName.setText(pitcher.getName());
             pitcherRecord.setText(String.valueOf(pitcher.getRecord().getWin()));
+            pitcherImage.setImageDrawable(pitcher.getPhoto());
             return;
         }
     }

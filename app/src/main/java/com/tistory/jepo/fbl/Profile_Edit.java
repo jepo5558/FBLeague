@@ -1,7 +1,8 @@
 package com.tistory.jepo.fbl;
 
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -60,18 +61,29 @@ public class Profile_Edit extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateRecord() {
-        dataManager = DataManager.getInstance();
+        dataManager = DataManager.getInstance(getApplicationContext());
         ArrayList<Pitcher> list = dataManager.getPitcherList();
         String playerName = playerNameTextView.getText().toString();
-        int inningCount = Integer.parseInt(inningEditText.getText().toString());
-        int era = Integer.parseInt(eraEditText.getText().toString().toString());
+        int inningCount = 0;
+        int era = 0;
+
+        try {
+            if (!TextUtils.isEmpty(inningEditText.getText().toString())) {
+                inningCount = Integer.parseInt(inningEditText.getText().toString());
+            }
+            if (!TextUtils.isEmpty(eraEditText.getText().toString().toString())) {
+                era = Integer.parseInt(eraEditText.getText().toString().toString());
+            }
+        } catch(NumberFormatException e) {
+            Log.e("jepo", e.toString());
+        }
 
         if (list != null) {
-            for (int i = 0; i<list.size(); i++) {
+            for (int i = 0; i < list.size(); i++) {
                 if (playerName.equals(list.get(i).getName())) {
                     PitcherRecord record = list.get(i).getRecord();
                     record.setInning(inningCount + record.getInning());
-                    record.setLosePoint(era+ record.getLosePoint());
+                    record.setLosePoint(era + record.getLosePoint());
                     if (checkBox.isChecked()) {
                         record.setWin(record.getWin() + 1);
                     }
